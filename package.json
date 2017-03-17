@@ -1,0 +1,19 @@
+{
+  "name": "quodterm",
+  "version": "0.0.0",
+  "description": "Question terminal",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/krachzack/quodterm",
+  "keywords": [
+    "quiz",
+    "question"
+  ],
+  "author": "IM16",
+  "license": "UNLICENSE",
+  "devDependencies": {
+    "electron": "^1.4.1"
+  }
+}
