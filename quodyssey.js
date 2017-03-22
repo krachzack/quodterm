@@ -24,6 +24,10 @@ module.exports = function (hostname, port, gameID) {
             ]
           }
         })
+      },
+
+      answer(questionIdx) {
+        console.log(`Got answer ${questionIdx}`)
       }
     }
   })

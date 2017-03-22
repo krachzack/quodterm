@@ -117,8 +117,7 @@ function showMultipleChoiceOptions (options) {
 }
 
 function processMultipleChoiceAnswer (idx) {
-  // TODO this should somehow be handled
-  console.log(`User picked ${idx} of multiple choice question`)
+  quiz.answer(idx)
 }
 
 // see if it looks and smells like an iterable object, and do accept length === 0
