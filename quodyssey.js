@@ -9,7 +9,7 @@ module.exports = function (hostname, port, gameID) {
   return get(`/game/start/${gameID}`).then(function (res) {
     console.log('Started')
 
-    if(!(res.success !== true)) {
+    if(res.success !== true) {
       return Promise.reject(new Error('The server communicated failure in starting a game'))
     }
 
