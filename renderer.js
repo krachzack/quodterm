@@ -30,8 +30,13 @@ function initialize () {
   showDebugQuestion()
 
   let gameID = `23`;
-  quoddyssey('127.0.0.1', 3333, gameID).then(function(question) {
-    showQuestion(question);
+  quoddyssey('127.0.0.1', 3333, gameID).then(function(quizObj) {
+    quiz = quizObj
+
+    quiz.getQuestion().then(function (question) {
+      showQuestion(question)
+    })
+
   })
 }
 
