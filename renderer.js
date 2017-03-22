@@ -4,10 +4,12 @@
 
 const BrowserWindow = require('electron').remote.BrowserWindow
 const path = require('path')
+const quoddyssey = require('./quodyssey')
 
 let win
 let questionElement
 let multipleChoiceElements
+let quiz
 
 (function () {
   win = new BrowserWindow({ width: 400, height: 275 })
@@ -26,6 +28,13 @@ function initialize () {
   // TODO Currently, we just show a multiple choice question and do nothing with
   // answers. We can do better than that!
   showDebugQuestion()
+
+  let gameID = `23`;
+  quoddyssey('127.0.0.1', 3333, gameID).then(function(theQuiz) {
+    quiz = theQuiz
+
+    showQuestion(quiz.currentQuestion())
+  })
 }
 
 function showDebugQuestion () {
@@ -111,7 +120,7 @@ function processMultipleChoiceAnswer (idx) {
 
 // see if it looks and smells like an iterable object, and do accept length === 0
 // See: http://stackoverflow.com/a/24048615
-function isArrayLike(item) {
+function isArrayLike (item) {
     return (
         Array.isArray(item) ||
         (!!item &&

@@ -12,8 +12,11 @@
     "question"
   ],
   "author": "IM16",
-  "license": "UNLICENSE",
+  "license": "SEE LICENSE IN UNLICENSE",
   "devDependencies": {
     "electron": "^1.4.1"
+  },
+  "dependencies": {
+    "minimal-request-promise": "^1.3.0"
   }
 }
