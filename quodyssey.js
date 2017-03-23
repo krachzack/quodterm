@@ -13,11 +13,11 @@ module.exports = function (hostname, port, gameID) {
     return get(`quiz/set/${gameID}`)
   }).then(function (result) {
     return {
-      /**
-       * Returns a promise for the current question that fulfills as soon as
-       * possible. If a question is already there, no request to the server will
-       * be made
-       */
+      //
+      // Returns a promise for the current question that fulfills as soon as
+      // possible. If a question is already there, no request to the server will
+      // be made
+      //
       getQuestion() {
         if(currentQuestion) {
           return Promise.resolve(currentQuestion)
@@ -26,11 +26,13 @@ module.exports = function (hostname, port, gameID) {
         }
       },
 
-      /**
-       * Gets a promise for the next question after this question is over. This
-       * works by polling for new questions 4 times a second in the background
-       * and fulfilling the promise when a question with different ID is available
-       */
+      //
+      // Gets a promise for the next question after this question is over. This
+      // works by polling for new questions 4 times a second in the background
+      // and fulfilling the promise when a question with different ID is available
+      // in contrast to getQuestion, which most likely resolves immediately,
+      // the polling mechanism takes at least 250ms to complete.
+      //
       getNextQuestion() {
         return pollNextQuestion()
       },
