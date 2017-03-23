@@ -1,0 +1,22 @@
+
+body {
+  font-family: Helvetica, sans-serif;
+}
+
+.question-answers-choice,
+.question-answers-estimate,
+.question-answers-text {
+  display: none;
+}
+
+.question.is-choice .question-answers-choice {
+  display: block;
+}
+
+.question.is-estimate .question-answers-choice {
+  display: block;
+}
+
+.question.is-text .question-answers-choice {
+  display: block;
+}
