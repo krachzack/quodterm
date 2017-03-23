@@ -11,24 +11,15 @@ let questionElement
 let multipleChoiceElements
 let quiz
 
-(function () {
-  win = new BrowserWindow({ width: 400, height: 275 })
-
-  win.on('close', function () { win = null })
-
-  initialize()
-
-  win.show()
-})()
+initialize();
 
 function initialize () {
   obtainElements()
   wireEvents()
+  connectQuiz()
+}
 
-  // TODO Currently, we just show a multiple choice question and do nothing with
-  // answers. We can do better than that!
-  showDebugQuestion()
-
+function connectQuiz () {
   let gameID = `23`;
   quoddyssey('127.0.0.1', 3333, gameID).then(function(quizObj) {
     quiz = quizObj
@@ -36,7 +27,6 @@ function initialize () {
     quiz.getQuestion().then(function (question) {
       showQuestion(question)
     })
-
   })
 }
 
@@ -117,7 +107,9 @@ function showMultipleChoiceOptions (options) {
 }
 
 function processMultipleChoiceAnswer (idx) {
-  quiz.answer(idx)
+  quiz.answerMultipleChoice(idx).then(function (wasRight) {
+    document.querySelector('body').style.backgroundColor = (wasRight) ? 'green' : 'red'
+  })
 }
 
 // see if it looks and smells like an iterable object, and do accept length === 0
