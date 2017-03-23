@@ -24,9 +24,7 @@ function connectQuiz () {
   quoddyssey('127.0.0.1', 3333, gameID).then(function(quizObj) {
     quiz = quizObj
 
-    quiz.getQuestion().then(function (question) {
-      showQuestion(question)
-    })
+    quiz.getQuestion().then(showQuestion)
   })
 }
 
@@ -74,6 +72,9 @@ function wireEvents () {
 //
 function showQuestion (question) {
   const { prompt, options } = question
+
+  // Immediately sign up for newer questions
+  quiz.getNextQuestion().then(showQuestion)
 
   showPrompt(prompt)
   showOptions(options)
