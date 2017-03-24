@@ -18,7 +18,7 @@ module.exports = function (hostname, port, gameID) {
       // possible. If a question is already there, no request to the server will
       // be made
       //
-      getQuestion() {
+      getQuestion () {
         if(currentQuestion) {
           return Promise.resolve(currentQuestion)
         } else {
@@ -33,25 +33,51 @@ module.exports = function (hostname, port, gameID) {
       // in contrast to getQuestion, which most likely resolves immediately,
       // the polling mechanism takes at least 250ms to complete.
       //
-      getNextQuestion() {
+      getNextQuestion () {
         return pollNextQuestion()
       },
 
-      answerMultipleChoice(answerIdx) {
-        if (currentQuestion) {
-          if(answerIdx < 0 || answerIdx > 3) { throw new Error(`Invalid answer idx ${answerIdx}`) }
-          let answerLetter = ['a', 'b', 'c', 'd'][answerIdx]
-          return get(`answer/${gameID}/${currentQuestion.round}/${answerLetter}`).then(function (result) {
-            return result.result
-          })
+      answer (answerObj) {
+        let wasRight
+
+        if(!currentQuestion) {
+          wasRight = Promise.reject(new Error('Tried to answer but no question was get before'))
+        } else if(currentQuestion.type != answerObj.type) {
+          wasRight = Promise.reject(new Error(`Current question has type ${currentQuestion.type}, but given answer is ${answerObj.type}`))
         } else {
-          return Promise.reject(new Error('Did not get a question before answering'))
+
+          switch(answerObj.type) {
+            case "choice":
+              wasRight = answerMultipleChoice(answerObj.idx)
+              break
+
+            default:
+              wasRight = Promise.reject(new Error(`Unknown answer type ${answerObj.type}`))
+              break
+          }
+
         }
+
+        return wasRight
       }
+
+
     }
   })
 
-  function obtainCurrentQuestion() {
+  function answerMultipleChoice (answerIdx) {
+    if (currentQuestion) {
+      if(answerIdx < 0 || answerIdx > 3) { throw new Error(`Invalid answer idx ${answerIdx}`) }
+      let answerLetter = ['a', 'b', 'c', 'd'][answerIdx]
+      return get(`answer/${gameID}/${currentQuestion.round}/${answerLetter}`).then(function (result) {
+        return result.result
+      })
+    } else {
+      return Promise.reject(new Error('Did not get a question before answering'))
+    }
+  }
+
+  function obtainCurrentQuestion () {
     if(!currentQuestionPoll) {
       currentQuestionPoll = get(`getq/${gameID}`).then(function (result) {
         currentQuestion = {

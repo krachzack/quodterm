@@ -20,3 +20,11 @@ body {
 .question.is-text .question-answers-choice {
   display: block;
 }
+
+.question-answer-choice.is-correct {
+  background-color: green;
+}
+
+.question-answer-choice.is-wrong {
+  background-color: red;
+}
