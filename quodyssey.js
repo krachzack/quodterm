@@ -8,9 +8,9 @@ module.exports = function (hostname, port, gameID) {
   let currentQuestion
   let currentQuestionPoll
 
-  return get(`game/start/${gameID}`).then(function (result) {
+  return get(`start/${gameID}`).then(function (result) {
     // This should be done from the action game
-    return get(`quiz/set/${gameID}`)
+    return get(`ask/${gameID}`)
   }).then(function (result) {
     return {
       //
@@ -41,7 +41,7 @@ module.exports = function (hostname, port, gameID) {
         if (currentQuestion) {
           if(answerIdx < 0 || answerIdx > 3) { throw new Error(`Invalid answer idx ${answerIdx}`) }
           let answerLetter = ['a', 'b', 'c', 'd'][answerIdx]
-          return get(`quiz/result/${currentQuestion.id}/${answerLetter}`).then(function (result) {
+          return get(`answer/${gameID}/${currentQuestion.round}/${answerLetter}`).then(function (result) {
             return result.result
           })
         } else {
@@ -53,9 +53,11 @@ module.exports = function (hostname, port, gameID) {
 
   function obtainCurrentQuestion() {
     if(!currentQuestionPoll) {
-      currentQuestionPoll = get(`quiz/get/${gameID}`).then(function (result) {
+      currentQuestionPoll = get(`getq/${gameID}`).then(function (result) {
         currentQuestion = {
           id: result.question.id,
+          round: result.round,
+          type: result.question.type,
           prompt: result.question.question,
           options: [
             result.question.a,
@@ -75,7 +77,7 @@ module.exports = function (hostname, port, gameID) {
 
   function pollNextQuestion () {
     return new Promise(function (resolve, reject) {
-      const oldId = currentQuestion ? currentQuestion.id : "-1"
+      const oldRound = currentQuestion ? currentQuestion.round : -1
       let activePoll
 
       setInterval(callback, questionPollingIntervalMs)
@@ -86,7 +88,7 @@ module.exports = function (hostname, port, gameID) {
         activePoll = obtainCurrentQuestion()
 
         activePoll.then(function(question) {
-          if(question.id !== oldId) {
+          if(question.round !== oldRound) {
             clearInterval(callback)
             resolve(question);
           } else {
