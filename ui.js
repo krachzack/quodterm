@@ -1,8 +1,13 @@
 
-const isArrayLike = require('./arraylike')
+let questionElem
 
-let questionElement
+let questionPromptElem
+
 let multipleChoiceElements
+
+let estimateInputElem
+let estimateConfirmElem
+
 let answeredLastShown = true
 
 // Publicly visible functions
@@ -19,6 +24,7 @@ const mod = {
 
     showPrompt(type, prompt)
     showOptions(type, options)
+    setQuestionClass(type)
 
     answeredLastShown = false
   },
@@ -29,31 +35,63 @@ wireEvents()
 
 module.exports = mod
 
-function processMultipleChoiceAnswer (idx) {
-  if(answeredLastShown) { return }
+function tryAnswer() {
+  if(answeredLastShown) { return false }
   answeredLastShown = true
+  return true
+}
 
-  mod.processAnswer({
-    type: "choice",
-    idx
-  }).then(function (wasRight) {
-    multipleChoiceElements[idx].classList.add(wasRight ? 'is-correct' : 'is-wrong')
-  })
+function processMultipleChoiceAnswer (idx) {
+  if(tryAnswer()) {
+
+    mod.processAnswer({
+      type: "choice",
+      idx
+    }).then(function (wasRight) {
+      multipleChoiceElements[idx].classList.add(wasRight ? 'is-correct' : 'is-wrong')
+    })
+
+  }
+}
+
+function processEstimateAnswer (estimateVal) {
+  if(tryAnswer()) {
+
+    mod.processAnswer({
+      type: "estimate",
+      estimate: estimateVal
+    }).then(function (wasRight) {
+      estimateInputElem.classList.add(wasRight ? 'is-correct' : 'is-wrong')
+      estimateConfirmElem.classList.add(wasRight ? 'is-correct' : 'is-wrong')
+    })
+
+  }
 }
 
 function showPrompt (type, prompt) {
-  if(type === "choice") {
-      questionElement.innerText = prompt
-  } else {
-    throw `Dunno how to show prompt for type: ${type}`
+  switch(type) {
+    case "choice":
+    case "estimate":
+      questionPromptElem.innerText = prompt
+      break
+
+    default:
+      throw new Error(`Dunno how to show prompt for type: ${type}`)
   }
 }
 
 function showOptions (type, options) {
-  if(type === "choice") {
-    showMultipleChoiceOptions(options)
-  } else {
-    throw `Dunno how to show options for type ${type}`
+  switch(type) {
+    case "choice":
+      showMultipleChoiceOptions(options)
+      break
+
+    case "estimate":
+      showEstimateInput()
+      break
+
+    default:
+      throw new Error(`Dunno how to show options for type: ${type}`)
   }
 }
 
@@ -67,20 +105,43 @@ function showMultipleChoiceOptions (options) {
   })
 }
 
+function showEstimateInput() {
+  estimateInputElem.classList.remove('is-correct')
+  estimateInputElem.classList.remove('is-wrong')
+
+  estimateConfirmElem.classList.remove('is-choice')
+  estimateConfirmElem.classList.remove('is-estimate')
+}
+
+function setQuestionClass (type) {
+  questionElem.classList.remove('is-choice')
+  questionElem.classList.remove('is-estimate')
+
+  questionElem.classList.add(`is-${type}`)
+}
+
 //
 // Finds interface elements in the document and stores them in module variables
 //
 function obtainElements () {
-  const questionSel = '#question-prompt-text'
+  const questionSel = '#question'
+  const questionPromptSel = '#question-prompt-text'
   const multipleChoiceSels = [
     '#question-answer-a',
     '#question-answer-b',
     '#question-answer-c',
     '#question-answer-d',
   ]
+  const estimateInputSel = '#question-answer-estimate'
+  const estimateConfirmSel = '#question-answer-estimate-confirm'
 
-  questionElement = document.querySelector(questionSel)
+  questionElem = document.querySelector(questionSel)
+
+  questionPromptElem = document.querySelector(questionPromptSel)
   multipleChoiceElements = multipleChoiceSels.map(sel => document.querySelector(sel))
+
+  estimateInputElem = document.querySelector(estimateInputSel)
+  estimateConfirmElem = document.querySelector(estimateConfirmSel)
 }
 
 function wireEvents () {
@@ -89,5 +150,10 @@ function wireEvents () {
       'click',
       () => processMultipleChoiceAnswer(idx)
     )
+  )
+
+  estimateConfirmElem.addEventListener(
+    'click',
+    () => processEstimateAnswer(Number.parseFloat(estimateInputElem.value))
   )
 }

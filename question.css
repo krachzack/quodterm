@@ -13,18 +13,20 @@ body {
   display: block;
 }
 
-.question.is-estimate .question-answers-choice {
+.question.is-estimate .question-answers-estimate {
   display: block;
 }
 
-.question.is-text .question-answers-choice {
+.question.is-text .question-answers-text {
   display: block;
 }
 
-.question-answer-choice.is-correct {
+.question-answer-choice.is-correct,
+.question-answer-estimate-btn.is-correct {
   background-color: green;
 }
 
-.question-answer-choice.is-wrong {
+.question-answer-choice.is-wrong,
+.question-answer-estimate-btn.is-wrong {
   background-color: red;
 }

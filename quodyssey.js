@@ -51,6 +51,10 @@ module.exports = function (hostname, port, gameID) {
               wasRight = answerMultipleChoice(answerObj.idx)
               break
 
+            case "estimate":
+              wasRight = answerEstimate(answerObj.estimate)
+              break
+
             default:
               wasRight = Promise.reject(new Error(`Unknown answer type ${answerObj.type}`))
               break
@@ -75,6 +79,18 @@ module.exports = function (hostname, port, gameID) {
     } else {
       return Promise.reject(new Error('Did not get a question before answering'))
     }
+  }
+
+  function answerEstimate (estimateVal) {
+    console.log(JSON.stringify(estimateVal))
+
+    if(typeof estimateVal !== "number") {
+      return Promise.reject(new Error('Estimation questions need to be answered with numbers'))
+    }
+
+    return get(`answer/${gameID}/${currentQuestion.round}/${estimateVal}`).then(function (result) {
+      return result.result
+    })
   }
 
   function obtainCurrentQuestion () {
