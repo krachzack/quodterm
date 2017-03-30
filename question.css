@@ -26,6 +26,11 @@ body {
   background-color: green;
 }
 
+.question-answer-choice.is-pending,
+.question-answer-estimate-btn.is-pending {
+  background-color: yellow;
+}
+
 .question-answer-choice.is-wrong,
 .question-answer-estimate-btn.is-wrong {
   background-color: red;

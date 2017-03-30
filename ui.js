@@ -43,12 +43,16 @@ function tryAnswer() {
 
 function processMultipleChoiceAnswer (idx) {
   if(tryAnswer()) {
+    const pickedElementClasses = multipleChoiceElements[idx].classList
+
+    pickedElementClasses.add('is-pending')
 
     mod.processAnswer({
       type: "choice",
       idx
     }).then(function (wasRight) {
-      multipleChoiceElements[idx].classList.add(wasRight ? 'is-correct' : 'is-wrong')
+      pickedElementClasses.remove('is-pending')
+      pickedElementClasses.add(wasRight ? 'is-correct' : 'is-wrong')
     })
 
   }
@@ -57,10 +61,15 @@ function processMultipleChoiceAnswer (idx) {
 function processEstimateAnswer (estimateVal) {
   if(tryAnswer()) {
 
+    estimateInputElem.classList.add('is-pending')
+    estimateConfirmElem.classList.add('is-pending')
+
     mod.processAnswer({
       type: "estimate",
       estimate: estimateVal
     }).then(function (wasRight) {
+      estimateInputElem.classList.remove('is-pending')
+      estimateConfirmElem.classList.remove('is-pending')
       estimateInputElem.classList.add(wasRight ? 'is-correct' : 'is-wrong')
       estimateConfirmElem.classList.add(wasRight ? 'is-correct' : 'is-wrong')
     })

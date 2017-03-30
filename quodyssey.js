@@ -70,11 +70,22 @@ module.exports = function (hostname, port, gameID) {
   })
 
   function answerMultipleChoice (answerIdx) {
+    const answerLetter = ['a', 'b', 'c', 'd'][answerIdx]
+    const round = currentQuestion.round
+
     if (currentQuestion) {
       if(answerIdx < 0 || answerIdx > 3) { throw new Error(`Invalid answer idx ${answerIdx}`) }
-      let answerLetter = ['a', 'b', 'c', 'd'][answerIdx]
+
       return get(`answer/${gameID}/${currentQuestion.round}/${answerLetter}`).then(function (result) {
-        return result.result
+        return new Promise(function(resolve, reject) {
+          const msLeft = currentQuestionRemainingTime()
+          setTimeout(function () {
+            get(`resultQ/${gameID}/${round}`).then(function (result) {
+              const correctAnswerLetter = result.answer
+              resolve(correctAnswerLetter === answerLetter)
+            })
+          }, msLeft)
+        })
       })
     } else {
       return Promise.reject(new Error('Did not get a question before answering'))
@@ -82,31 +93,49 @@ module.exports = function (hostname, port, gameID) {
   }
 
   function answerEstimate (estimateVal) {
-    console.log(JSON.stringify(estimateVal))
-
     if(typeof estimateVal !== "number") {
       return Promise.reject(new Error('Estimation questions need to be answered with numbers'))
     }
 
-    return get(`answer/${gameID}/${currentQuestion.round}/${estimateVal}`).then(function (result) {
-      return result.result
+    const round = currentQuestion.round
+
+    return get(`answer/${gameID}/${round}/${estimateVal}`).then(function (result) {
+      return new Promise(function(resolve, reject) {
+        const msLeft = currentQuestionRemainingTime()
+        setTimeout(function () {
+          get(`resultQ/${gameID}/${round}`).then(function (result) {
+            const exactVal = result.answer
+            // If less than 10% off, show as correct
+            const goodEnough = Math.abs(exactVal - estimateVal) < estimateVal * 0.1
+            resolve(goodEnough)
+          })
+        }, Math.max(msLeft, 0))
+      })
     })
+  }
+
+  function currentQuestionRemainingTime () {
+    return currentQuestion.end.getTime() - (new Date()).getTime()
   }
 
   function obtainCurrentQuestion () {
     if(!currentQuestionPoll) {
       currentQuestionPoll = get(`getq/${gameID}`).then(function (result) {
-        currentQuestion = {
-          id: result.question.id,
-          round: result.round,
-          type: result.question.type,
-          prompt: result.question.question,
-          options: [
-            result.question.a,
-            result.question.b,
-            result.question.c,
-            result.question.d
-          ]
+
+        if(result.success) {
+          currentQuestion = {
+            id: result.question.id,
+            round: result.round,
+            type: result.question.type,
+            prompt: result.question.question,
+            options: [
+              result.question.a,
+              result.question.b,
+              result.question.c,
+              result.question.d
+            ],
+            end: new Date(result.end),
+          }
         }
 
         currentQuestionPoll = undefined;
