@@ -30,3 +30,40 @@ body {
 .question-answer-estimate-btn.is-wrong {
   background-color: red;
 }
+
+.mainmenue-button {
+	opacity: 0.9;
+	color: black;
+	height: 100px;
+	margin-top: 200px;
+	font: center;
+}
+
+.mainmenue-button:hover {
+	opacity: 1.0;
+}
+
+.mainmenue-button-text, .mainmenue-button-text:hover {
+	font-size: 24pt;
+	margin-top: 13px;
+	color: black;
+	opacity: 1.0 !important;
+}
+
+.mainmenue-button-start {
+	background-color: #85E047;
+	border: 7px solid #387113 !important;
+}
+
+.mainmenue-button-join {
+	background-color: #A4FBF9;
+	border: 7px solid #09C4BF !important;
+}
+
+.border {
+	border: 10px solid #666;
+	border-radius: 10px;
+	margin: 20px;
+	width: 90%;
+	height: 520px;
+}
