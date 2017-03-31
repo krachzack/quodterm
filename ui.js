@@ -28,6 +28,10 @@ const mod = {
 
     answeredLastShown = false
   },
+
+  showRoomcode (roomcode) {
+    document.querySelector('#roomcode-text').textContent = roomcode
+  },
 }
 
 obtainElements()

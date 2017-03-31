@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Join Game</title>
     <link rel="stylesheet" href="question.css">
-    
+
     <!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -19,19 +19,26 @@
         	<span class="menue-prompt">Enter Room-Code</span> <br />
             <input class="input-blue" type="text" id="input-roomcode" placeholder="XXXX" maxlength="4" required />  <br /> <br />
             <span class="menue-prompt">Enter Username</span> <br />
-            <input class="input-blue" type="text" id="username" placeholder="Username" maxlength="15" required />       
-        </div>            	
+            <input class="input-blue" type="text" id="username" placeholder="Username" maxlength="15" required />
+        </div>
         <div id="bottom-left-arrow">
         	<a href="startmenue.html">
             	<img class="img-responsive arrow-blue" src="resource/arrow_blue.png" width="50" height="50" style="transform: scale(-1, 1);" />
             </a>
         </div>
         <div id="bottom-right-arrow">
-            <a href="lobby.html">
+            <a href="quizplayer.html">
             	<img class="img-responsive arrow-blue" src="resource/arrow_blue.png" width="50" height="50" />
             </a>
         </div>
     </div>
-    
+
+    <script type="text/javascript">
+      const roomInput = document.querySelector('#input-roomcode')
+      roomInput.addEventListener('input', function() {
+        localStorage.set('roomcode', roomInput.value)
+      })
+    </script>
+
 </body>
 </html>

@@ -8,66 +8,69 @@ module.exports = function (hostname, port, gameID) {
   let currentQuestion
   let currentQuestionPoll
 
-  return get(`start/${gameID}`).then(function (result) {
-    // This should be done from the action game
-    return get(`ask/${gameID}`)
-  }).then(function (result) {
-    return {
-      //
-      // Returns a promise for the current question that fulfills as soon as
-      // possible. If a question is already there, no request to the server will
-      // be made
-      //
-      getQuestion () {
-        if(currentQuestion) {
-          return Promise.resolve(currentQuestion)
-        } else {
-          return obtainCurrentQuestion()
+  return {
+    start () {
+      return get(`start/${gameID}`)
+    },
+
+    nextRound () {
+      return get(`ask/${gameID}`)
+    },
+
+    //
+    // Returns a promise for the current question that fulfills as soon as
+    // possible. If a question is already there, no request to the server will
+    // be made
+    //
+    getQuestion () {
+      if(currentQuestion) {
+        return Promise.resolve(currentQuestion)
+      } else {
+        return obtainCurrentQuestion()
+      }
+    },
+
+    //
+    // Gets a promise for the next question after this question is over. This
+    // works by polling for new questions 4 times a second in the background
+    // and fulfilling the promise when a question with different ID is available
+    // in contrast to getQuestion, which most likely resolves immediately,
+    // the polling mechanism takes at least 250ms to complete.
+    //
+    getNextQuestion () {
+      return pollNextQuestion()
+    },
+
+    answer (answerObj) {
+      let wasRight
+
+      if(!currentQuestion) {
+        wasRight = Promise.reject(new Error('Tried to answer but no question was get before'))
+      } else if(currentQuestion.type != answerObj.type) {
+        wasRight = Promise.reject(new Error(`Current question has type ${currentQuestion.type}, but given answer is ${answerObj.type}`))
+      } else {
+
+        switch(answerObj.type) {
+          case "choice":
+            wasRight = answerMultipleChoice(answerObj.idx)
+            break
+
+          case "estimate":
+            wasRight = answerEstimate(answerObj.estimate)
+            break
+
+          default:
+            wasRight = Promise.reject(new Error(`Unknown answer type ${answerObj.type}`))
+            break
         }
-      },
 
-      //
-      // Gets a promise for the next question after this question is over. This
-      // works by polling for new questions 4 times a second in the background
-      // and fulfilling the promise when a question with different ID is available
-      // in contrast to getQuestion, which most likely resolves immediately,
-      // the polling mechanism takes at least 250ms to complete.
-      //
-      getNextQuestion () {
-        return pollNextQuestion()
-      },
-
-      answer (answerObj) {
-        let wasRight
-
-        if(!currentQuestion) {
-          wasRight = Promise.reject(new Error('Tried to answer but no question was get before'))
-        } else if(currentQuestion.type != answerObj.type) {
-          wasRight = Promise.reject(new Error(`Current question has type ${currentQuestion.type}, but given answer is ${answerObj.type}`))
-        } else {
-
-          switch(answerObj.type) {
-            case "choice":
-              wasRight = answerMultipleChoice(answerObj.idx)
-              break
-
-            case "estimate":
-              wasRight = answerEstimate(answerObj.estimate)
-              break
-
-            default:
-              wasRight = Promise.reject(new Error(`Unknown answer type ${answerObj.type}`))
-              break
-          }
-
-        }
-
-        return wasRight
       }
 
+      return wasRight
+    },
 
-    }
-  })
+    getCurrentQuestionRemainingTime: currentQuestionRemainingTime,
+  }
 
   function answerMultipleChoice (answerIdx) {
     const answerLetter = ['a', 'b', 'c', 'd'][answerIdx]
@@ -159,7 +162,7 @@ module.exports = function (hostname, port, gameID) {
         activePoll = obtainCurrentQuestion()
 
         activePoll.then(function(question) {
-          if(question.round !== oldRound) {
+          if(question && question.round !== oldRound) {
             clearInterval(callback)
             resolve(question);
           } else {

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Start Game</title>
     <link rel="stylesheet" href="question.css">
-    
+
     <!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -13,26 +13,33 @@
 </head>
 
 <body>
-	
+
     <div class="border">
     	<div id="roomcode">
-        	Room Code: XXXX
+        	Room Code: <span id="roomcode-text">XXXX</span>
         </div>
         <div class="centered">
         	<span class="menue-prompt">Enter Username</span> <br />
-            <input class="input-green" type="text" id="username" placeholder="Username" maxlength="15" required />    
-        </div>        	
+            <input class="input-green" type="text" id="username" placeholder="Username" maxlength="15" required />
+        </div>
         <div id="bottom-left-arrow">
         	<a href="startmenue.html">
             	<img class="img-responsive arrow" src="resource/arrow.png" width="50" height="50" style="transform: scale(-1, 1);" />
             </a>
         </div>
         <div id="bottom-right-arrow">
-            <a href="question.html">
+            <a href="quizmaster.html">
             	<img class="img-responsive arrow" src="resource/arrow.png" width="50" height="50" />
             </a>
         </div>
     </div>
-    
+
+    <script type="text/javascript">
+      const roomcode = Math.floor(Math.random() * 9999)
+
+      document.querySelector('#roomcode-text').textContent = roomcode
+      localStorage.setItem('roomcode', roomcode)
+    </script>
+
 </body>
 </html>
