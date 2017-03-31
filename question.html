@@ -10,11 +10,16 @@
 
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    
+    <script src="question.js"></script>
 </head>
 
   <body>
 
-    <h1>quodterm</h1>
+    <div class="border">
+       <div id="roomcode">
+       	Room Code: XXXX
+       </div>
 
     <article id="question" class="question is-choice">
 
@@ -32,15 +37,24 @@
 
         <div class="question-answers-estimate">
           <input id="question-answer-estimate" name="question-answer-estimate" class="question-answer-estimate-input" type="number" value="0">
-          <button id="question-answer-estimate-confirm" type="button" name="button" class="question-answer-estimate-btn">This estimation seems about right</button>
+          <button id="question-answer-estimate-confirm" type="button" name="button" class="question-answer-estimate-btn">Submit</button>
         </div>
 
         <div class="question-answers-text">
           <input type="text" name="question-answer-text" placeholder="Your answer…" value="">
         </div>
       </section>
-
+      
+      
+      <div id="timer">
+     	 <span id="timer_number">15</span>
+      </div>
+     
+	  <div id="timer_border">
+      </div>	
+     
     </article>
+    </div>
 
   </body>
 
