@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Question Terminal</title>
+    <link rel="stylesheet" href="question.css">
+    
+    <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+
+  <body>
+
+    <h1>quodterm</h1>
+
+    <article id="question" class="question is-choice">
+
+      <section class="question-prompt">
+        <div id="question-prompt-text" class="question-prompt-text">?</div>
+      </section>
+
+      <section class="question-answers">
+        <div class="question-answers-choice">
+          <button id="question-answer-a" name="question-answer-a" class="question-answer-choice" type="button">A</button>
+          <button id="question-answer-b" name="question-answer-b" class="question-answer-choice" type="button">B</button>
+          <button id="question-answer-c" name="question-answer-c" class="question-answer-choice" type="button">C</button>
+          <button id="question-answer-d" name="question-answer-d" class="question-answer-choice" type="button">D</button>
+        </div>
+
+        <div class="question-answers-estimate">
+          <input id="question-answer-estimate" name="question-answer-estimate" class="question-answer-estimate-input" type="number" value="0">
+          <button id="question-answer-estimate-confirm" type="button" name="button" class="question-answer-estimate-btn">This estimation seems about right</button>
+        </div>
+
+        <div class="question-answers-text">
+          <input type="text" name="question-answer-text" placeholder="Your answer…" value="">
+        </div>
+      </section>
+
+    </article>
+
+  </body>
+
+  <script>
+    // Get the ball rolling
+    require('./renderer.js')
+  </script>
+  
+</html>

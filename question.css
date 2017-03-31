@@ -50,25 +50,113 @@ body {
 
 .mainmenue-button-text, .mainmenue-button-text:hover {
 	font-size: 24pt;
+	font-weight: bold;
 	margin-top: 13px;
 	color: black;
 	opacity: 1.0 !important;
 }
 
 .mainmenue-button-start {
-	background-color: #85E047;
-	border: 7px solid #387113 !important;
+	background-color: #E1EFBC;
+	border: 8px solid #678815 !important;
 }
 
 .mainmenue-button-join {
-	background-color: #A4FBF9;
-	border: 7px solid #09C4BF !important;
+	background-color: #AEDFEE;
+	border: 8px solid #00B9EF !important;
 }
 
 .border {
 	border: 10px solid #666;
 	border-radius: 10px;
 	margin: 20px;
-	width: 90%;
+	width: 1280px;
 	height: 520px;
+}
+
+#roomcode {
+	font-size: 14pt;
+	position: absolute;
+	left: 1100px;
+	top: 30px;
+	padding-left: 8px;
+	padding-right: 20px;
+	border-left: 10px solid #666;
+	border-bottom: 10px solid #666;
+}
+
+div.centered {
+	margin-top: 200px;
+	margin-bottom: 130px;
+	width: 100%;
+	text-align: center;
+}
+
+div.centered-join {
+	margin-top: 120px;
+	margin-bottom: 130px;
+	width: 100%;
+	text-align: center;
+}
+
+span.menue-prompt {
+	font-size: 20pt;
+	font-weight: bold;	
+}
+
+.input-green {
+	font-size: 20pt;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	text-align: center;
+	background-color: #E1EFBC;
+	border: 8px solid #678815 !important;
+}
+
+.input-blue {
+	font-size: 20pt;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	text-align: center;
+	background-color: #AEDFEE;
+	border: 8px solid #00B9EF !important;
+}
+
+#bottom-left-arrow {
+	position: absolute;
+	left: 40px;
+	top: 450px;
+}
+
+#bottom-right-arrow {
+	top: 450px;
+	position: absolute;
+	left: 1200px;
+}
+
+.arrow {	
+	padding: 5px;
+	margin: 10px;
+	background-color: #E1EFBC;
+	border: 6px solid #678815 !important;
+	border-radius: 25px;
+}
+
+.arrow-blue {	
+	padding: 5px;
+	margin: 10px;
+	background-color: #AEDFEE;
+	border: 6px solid #00B9EF !important;
+	border-radius: 25px;
+}
+
+.lobby-header {
+	text-align: center;
+	font-size: 36pt;
+	font-weight: bold;
+	color: #00B9EF;
 }
