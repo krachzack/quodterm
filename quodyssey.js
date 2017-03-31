@@ -70,6 +70,14 @@ module.exports = function (hostname, port, gameID) {
       return wasRight
     },
 
+    getResultForQuiz (round) {
+      return get(`resultQ/${gameID}/${round}`)
+    },
+
+    getResultForNonQuiz (round) {
+      return get(`resultA/${gameID}/${round}`)
+    },
+
     getCurrentQuestionRemainingTime: currentQuestionRemainingTime,
   }
 
