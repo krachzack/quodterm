@@ -1,5 +1,5 @@
 
-const requestPromise = require('minimal-request-promise')
+const requestPromise = require('axios')
 
 const questionPollingIntervalMs = 250
 const totalQuestionTimeMs = 20 * 1000
@@ -189,8 +189,8 @@ module.exports = function (hostname, port, gameID) {
   }
 
   function get (path) {
-    return requestPromise.get(`http://${hostname}:${port}/${path}`, {}).then(function (res) {
-      return JSON.parse(res.body)
+    return requestPromise.get(`http://${hostname}:${port}/${path}`).then(function (res) {
+      return res.data
     })
   }
 }
