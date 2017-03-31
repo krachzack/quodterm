@@ -1,7 +1,7 @@
 
 const quodyssey = require('./quodyssey')
 const gameID = localStorage.getItem('roomcode')
-const quiz = quodyssey('127.0.0.1', 3333, gameID)
+const quiz = quodyssey(process.env.SERVER_HOSTNAME, process.env.SERVER_PORT, gameID)
 let lastPrintedRound = -1
 
 initUI()
