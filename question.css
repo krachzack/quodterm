@@ -5,8 +5,20 @@ body {
 
 .question-answers-choice,
 .question-answers-estimate,
-.question-answers-text {
+.question-answers-text,
+.question-prompt,
+.msg-awating-round {
   display: none;
+}
+
+.question.is-waiting .msg-awating-round {
+  display: block;
+}
+
+.question.is-choice .question-prompt,
+.question.is-estimate .question-prompt,
+.question.is-text .question-prompt {
+  display: block;
 }
 
 .question.is-choice .question-answers-choice {
@@ -21,7 +33,6 @@ body {
   display: block;
 }
 
-.question-answer-choice.is-correct,
 .question-answer-estimate-btn.is-correct {
   background-color: green;
 }
@@ -32,9 +43,13 @@ body {
 	border: 8px solid #678815 !important;
 }
 
-.question-answer-choice.is-wrong,
-.question-answer-estimate-btn.is-wrong {
-  background-color: red;
+.question-answer-estimate-btn.is-wrong,
+.question-answer-choice.is-picked.is-wrong {
+  background-color: #ff3333;
+}
+
+.question-answer-choice.is-correct {
+  background-color: #33ff33;
 }
 
 .question-prompt-text {
@@ -53,6 +68,10 @@ body {
 	margin-right: 60px;
 	margin-bottom: 40px;
 	height: 100px;
+}
+
+.question-answer-choice.is-non-picked {
+  opacity: 0.5;
 }
 
 .question-answer-estimate-input {
@@ -100,11 +119,37 @@ body {
 	border-top: 10px solid #666;
 }
 
-#timer_number {
-	margin-right: 10px;
+.timer-content {
+  margin-right: 10px;
 	color: #fff;
 	font-weight: 900;
 	font-size: 12pt;
+}
+
+.timer-wrong,
+.timer-correct {
+  width: 1260px;
+  height: 25px;
+  text-align: center;
+  display: none;
+}
+
+.timer-correct {
+  background-color: #688722;
+}
+
+.timer-wrong {
+  background-color: #e10f21;
+}
+
+#timer.is-correct .timer-number,
+#timer.is-wrong .timer-number {
+  display: none;
+}
+
+#timer.is-correct .timer-correct,
+#timer.is-wrong .timer-wrong {
+  display: block;
 }
 
 .mainmenue-button {
@@ -172,7 +217,7 @@ div.centered-join {
 
 span.menue-prompt {
 	font-size: 20pt;
-	font-weight: bold;	
+	font-weight: bold;
 }
 
 .input-green {
@@ -209,7 +254,7 @@ span.menue-prompt {
 	left: 1200px;
 }
 
-.arrow {	
+.arrow {
 	padding: 5px;
 	margin: 10px;
 	background-color: #E1EFBC;
@@ -217,7 +262,7 @@ span.menue-prompt {
 	border-radius: 25px;
 }
 
-.arrow-blue {	
+.arrow-blue {
 	padding: 5px;
 	margin: 10px;
 	background-color: #AEDFEE;

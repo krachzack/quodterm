@@ -74,7 +74,8 @@ module.exports = function (hostname, port, gameID) {
   }
 
   function answerMultipleChoice (answerIdx) {
-    const answerLetter = ['a', 'b', 'c', 'd'][answerIdx]
+    const answerLetters = ['a', 'b', 'c', 'd']
+    const answerLetter = answerLetters[answerIdx]
     const round = currentQuestion.round
 
     if (currentQuestion) {
@@ -86,8 +87,8 @@ module.exports = function (hostname, port, gameID) {
           setTimeout(function () {
             get(`resultQ/${gameID}/${round}`).then(function (result) {
               const correctAnswerLetter = result.answer
-              console.log(result)
-              resolve(correctAnswerLetter === answerLetter)
+              const correctAnswerIndex = answerLetters.indexOf(correctAnswerLetter)
+              resolve({ success: (correctAnswerLetter === answerLetter), solution: correctAnswerIndex })
             })
           }, msLeft)
         })
@@ -109,11 +110,10 @@ module.exports = function (hostname, port, gameID) {
         const msLeft = currentQuestionRemainingTime()
         setTimeout(function () {
           get(`resultQ/${gameID}/${round}`).then(function (result) {
-            console.log(result)
             const exactVal = result.answer
             // If less than 10% off, show as correct
-            const goodEnough = Math.abs(exactVal - estimateVal) < estimateVal * 0.1
-            resolve(goodEnough)
+            const goodEnough = Math.abs(exactVal - estimateVal) < (estimateVal * 0.1)
+            resolve({ success: goodEnough, solution: exactVal })
           })
         }, Math.max(msLeft, 0))
       })
