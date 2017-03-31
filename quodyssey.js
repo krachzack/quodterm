@@ -2,6 +2,7 @@
 const requestPromise = require('minimal-request-promise')
 
 const questionPollingIntervalMs = 250
+const totalQuestionTimeMs = 20 * 1000
 
 module.exports = function (hostname, port, gameID) {
 
@@ -85,6 +86,7 @@ module.exports = function (hostname, port, gameID) {
           setTimeout(function () {
             get(`resultQ/${gameID}/${round}`).then(function (result) {
               const correctAnswerLetter = result.answer
+              console.log(result)
               resolve(correctAnswerLetter === answerLetter)
             })
           }, msLeft)
@@ -107,6 +109,7 @@ module.exports = function (hostname, port, gameID) {
         const msLeft = currentQuestionRemainingTime()
         setTimeout(function () {
           get(`resultQ/${gameID}/${round}`).then(function (result) {
+            console.log(result)
             const exactVal = result.answer
             // If less than 10% off, show as correct
             const goodEnough = Math.abs(exactVal - estimateVal) < estimateVal * 0.1
@@ -137,11 +140,13 @@ module.exports = function (hostname, port, gameID) {
               result.question.c,
               result.question.d
             ],
+            duration: totalQuestionTimeMs,
             end: new Date(result.end),
+            start: new Date(new Date(result.end).getTime() - totalQuestionTimeMs),
           }
         }
 
-        currentQuestionPoll = undefined;
+        currentQuestionPoll = undefined
 
         return currentQuestion
       })

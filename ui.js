@@ -1,4 +1,6 @@
 
+let currentQuestion
+
 let questionElem
 
 let questionPromptElem
@@ -7,6 +9,10 @@ let multipleChoiceElements
 
 let estimateInputElem
 let estimateConfirmElem
+
+let timerElement
+let originalTimerWidth
+let timerNumber
 
 let answeredLastShown = true
 
@@ -27,6 +33,7 @@ const mod = {
     setQuestionClass(type)
 
     answeredLastShown = false
+    currentQuestion = question
   },
 
   showRoomcode (roomcode) {
@@ -133,6 +140,22 @@ function setQuestionClass (type) {
   questionElem.classList.add(`is-${type}`)
 }
 
+function updateTimebar () {
+  if(currentQuestion) {
+    const nowMs = new Date().getTime()
+    const alpha = (nowMs - currentQuestion.start.getTime()) /
+                  (currentQuestion.end.getTime() - currentQuestion.start.getTime())
+
+    if(alpha > 0.0 && alpha < 1.0) {
+        const remainingSecs = Math.ceil((currentQuestion.end.getTime() - nowMs) / 1000)
+        timerNumber.textContent = remainingSecs
+
+        const timerWidth = (originalTimerWidth * (1-alpha)) + "px"
+        timerElement.style.width = timerWidth
+    }
+  }
+}
+
 //
 // Finds interface elements in the document and stores them in module variables
 //
@@ -155,6 +178,10 @@ function obtainElements () {
 
   estimateInputElem = document.querySelector(estimateInputSel)
   estimateConfirmElem = document.querySelector(estimateConfirmSel)
+
+  timerElement = document.querySelector("#timer")
+  originalTimerWidth = timerElement.offsetWidth
+  timerNumber = document.querySelector("#timer_number")
 }
 
 function wireEvents () {
@@ -169,4 +196,6 @@ function wireEvents () {
     'click',
     () => processEstimateAnswer(Number.parseFloat(estimateInputElem.value))
   )
+
+  setInterval(updateTimebar, 0)
 }

@@ -1,5 +1,5 @@
 // JavaScript Document
-var cd_interval;
+/*var cd_interval;
 var countdown_start = 15;
 var countdown;
 var timer;
@@ -11,7 +11,7 @@ window.onload = function() {
 	timer = document.getElementById("timer");
 	timer_startwidth = timer.offsetWidth;
 	timer_number = document.getElementById("timer_number");
-	cd_interval = setInterval(timedown, 1000);	
+	cd_interval = setInterval(timedown, 1000);
 };
 
 function timedown() {
@@ -21,4 +21,4 @@ function timedown() {
 	if (countdown <= 0) {
 		clearInterval(cd_interval);
 	}
-}
+}*/
