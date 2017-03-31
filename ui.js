@@ -54,16 +54,22 @@ function tryAnswer() {
 
 function processMultipleChoiceAnswer (idx) {
   if(tryAnswer()) {
-    const pickedElementClasses = multipleChoiceElements[idx].classList
+    const pickedElement = multipleChoiceElements[idx]
+    const nonPickedElements = multipleChoiceElements.filter((el, elIdx) => elIdx != idx)
+    const pickedElementClasses = pickedElement.classList
 
     pickedElementClasses.add('is-pending')
+    pickedElementClasses.add('is-picked')
+    nonPickedElements.forEach(el => el.classList.add('is-non-picked'))
 
     mod.processAnswer({
       type: "choice",
       idx
-    }).then(function (wasRight) {
+    }).then(function (result) {
       pickedElementClasses.remove('is-pending')
-      pickedElementClasses.add(wasRight ? 'is-correct' : 'is-wrong')
+      multipleChoiceElements.forEach(
+        (el, idx) => el.classList.add((idx == result.solution) ? 'is-correct' : 'is-wrong')
+      )
     })
 
   }
@@ -78,11 +84,11 @@ function processEstimateAnswer (estimateVal) {
     mod.processAnswer({
       type: "estimate",
       estimate: estimateVal
-    }).then(function (wasRight) {
+    }).then(function (result) {
       estimateInputElem.classList.remove('is-pending')
       estimateConfirmElem.classList.remove('is-pending')
-      estimateInputElem.classList.add(wasRight ? 'is-correct' : 'is-wrong')
-      estimateConfirmElem.classList.add(wasRight ? 'is-correct' : 'is-wrong')
+      estimateInputElem.classList.add(result.success ? 'is-correct' : 'is-wrong')
+      estimateConfirmElem.classList.add(result.success ? 'is-correct' : 'is-wrong')
     })
 
   }
@@ -119,6 +125,8 @@ function showMultipleChoiceOptions (options) {
   multipleChoiceElements.forEach((elem, idx) => {
     elem.classList.remove('is-correct')
     elem.classList.remove('is-wrong')
+    elem.classList.remove('is-picked')
+    elem.classList.remove('is-non-picked')
 
     const optionText = options[idx]
     elem.innerText =  optionText
@@ -197,5 +205,5 @@ function wireEvents () {
     () => processEstimateAnswer(Number.parseFloat(estimateInputElem.value))
   )
 
-  setInterval(updateTimebar, 0)
+  setInterval(updateTimebar, 16)
 }
