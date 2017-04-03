@@ -62,7 +62,8 @@ body {
 
 .question-answer-choice.is-non-picked.is-correct {
 	background-color: rgba(225,239,188,0.6);
-	border: 6px solid rgba(103,136,21,0.6) !important;
+	border: 8px solid #678815 !important;
+	opacity: 0.8;
 }
 
 .question-answer-choice {
