@@ -60,6 +60,11 @@ body {
 	border-bottom: 10px solid #666;
 }
 
+.question-answer-choice.is-non-picked.is-correct {
+	background-color: rgba(225,239,188,0.6);
+	border: 6px solid rgba(103,136,21,0.6) !important;
+}
+
 .question-answer-choice {
 	font-size: 18pt;
 	background-color: rgba(225,239,188,0.5);
