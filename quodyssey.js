@@ -10,7 +10,14 @@ module.exports = function (hostname, port, gameID) {
 
   return {
     start () {
-      return get(`start/${gameID}`)
+      if(!gameID) {
+        return get(`start`).then(function(res) {
+          gameID = res.gameId
+          return res
+        });
+      } else {
+        return get(`start/${gameID}`)
+      }
     },
 
     nextRound () {

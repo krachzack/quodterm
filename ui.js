@@ -167,6 +167,13 @@ function updateTimebar () {
 
         const timerWidth = (originalTimerWidth * (1-alpha)) + "px"
         timerElement.style.width = timerWidth
+
+        if(alpha > 0.75) {
+          timerElement.classList.remove('is-critical-2')
+          timerElement.classList.add('is-critical-1')
+        } else if(alpha > 0.5) {
+          timerElement.classList.add('is-critical-2')
+        }
     }
   }
 }

@@ -1,16 +1,14 @@
 
 const quodyssey = require('./quodyssey')
-const gameID = localStorage.getItem('roomcode')
 const hostname = process.env.SERVER_HOSTNAME || 'quovadis.gienah.uberspace.de'
 const port = process.env.SERVER_PORT || 80
-const quiz = quodyssey(hostname, port, gameID)
+const quiz = quodyssey(hostname, port)
 let lastPrintedRound = -1
 
 initUI()
 initQuiz()
 
 function initUI() {
-  document.querySelector('#roomcode-text').textContent = gameID
   document.querySelector('#next-round-btn').addEventListener('click', advanceRound)
 }
 
@@ -44,7 +42,9 @@ function showRound(question) {
 }
 
 function initQuiz () {
-  quiz.start()
+  quiz.start().then(function(res) {
+    document.querySelector('#roomcode-text').textContent = res.gameId
+  })
 }
 
 function advanceRound () {
