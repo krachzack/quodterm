@@ -120,7 +120,7 @@ module.exports = function (hostname, port, gameID) {
           get(`resultQ/${gameID}/${round}`).then(function (result) {
             const exactVal = result.answer
             // If less than 10% off, show as correct
-            const goodEnough = Math.abs(exactVal - estimateVal) < (estimateVal * 0.1)
+            const goodEnough = Math.abs(exactVal - estimateVal) < (exactVal * 0.1)
             resolve({ success: goodEnough, solution: exactVal })
           })
         }, Math.max(msLeft, 0))
