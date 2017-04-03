@@ -114,6 +114,15 @@ body {
 	background-color: #00B9EF;
 	text-align: right;
 	padding-top: 10px;
+  transition: background-color ease 0.5s;
+}
+
+#timer.is-critical-2 {
+  background-color: yellow;
+}
+
+#timer.is-critical-1 {
+  background-color: red;
 }
 
 #timer_border {
