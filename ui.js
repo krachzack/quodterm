@@ -11,7 +11,6 @@ let estimateInputElem
 let estimateConfirmElem
 
 let timerElement
-let originalTimerWidth
 let timerNumber
 
 let answeredLastShown = true
@@ -165,14 +164,17 @@ function updateTimebar () {
         const remainingSecs = Math.ceil((currentQuestion.end.getTime() - nowMs) / 1000)
         timerNumber.textContent = remainingSecs
 
-        const timerWidth = (originalTimerWidth * (1-alpha)) + "px"
-        timerElement.style.width = timerWidth
+        const timerWidth = (100 * (1-alpha)) + "%"
+        timerNumber.style.width = timerWidth
 
         if(alpha > 0.75) {
           timerElement.classList.remove('is-critical-2')
           timerElement.classList.add('is-critical-1')
         } else if(alpha > 0.5) {
           timerElement.classList.add('is-critical-2')
+        } else {
+          timerElement.classList.remove('is-critical-1')
+          timerElement.classList.remove('is-critical-2')
         }
     }
   }
@@ -202,7 +204,6 @@ function obtainElements () {
   estimateConfirmElem = document.querySelector(estimateConfirmSel)
 
   timerElement = document.querySelector("#timer")
-  originalTimerWidth = timerElement.offsetWidth
   timerNumber = document.querySelector("#timer_number")
 }
 

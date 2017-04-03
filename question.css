@@ -52,12 +52,14 @@ body {
   background-color: #688722;
 }
 
+.question-prompt {
+	border-bottom: 10px solid #666;
+}
+
 .question-prompt-text {
 	font-size: 24pt;
-	width: 1080px;
-	padding-left: 10px;
-	border-right: 10px solid #666;
-	border-bottom: 10px solid #666;
+  padding-left: 10px;
+	padding-right: 210px;
 }
 
 .question-answer-choice.is-non-picked.is-correct {
@@ -70,10 +72,13 @@ body {
 	font-size: 18pt;
 	background-color: rgba(225,239,188,0.5);
 	border: 6px solid rgba(103,136,21,0.5) !important;
-	width: 450px;
-	margin-right: 60px;
+	width: 44%;
 	margin-bottom: 40px;
 	height: 100px;
+}
+
+.question-answer-choice:nth-child(odd) {
+  margin-right: 10%;
 }
 
 .question-answer-choice.is-non-picked {
@@ -107,44 +112,39 @@ body {
 
 #timer {
 	position: absolute;
-	left: 30px;
-	top: 495px;
-	width: 1260px;
-	height: 35px;
-	background-color: #00B9EF;
-	text-align: right;
-	padding-top: 10px;
-  transition: background-color ease 0.5s;
-}
-
-#timer.is-critical-2 {
-  background-color: yellow;
-}
-
-#timer.is-critical-1 {
-  background-color: red;
-}
-
-#timer_border {
-	position: absolute;
-	left: 30px;
-	top: 495px;
-	width: 1260px;
-	height: 35px;
-	border-top: 10px solid #666;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+  border-top: 10px solid #666;
+	height: 45px;
 }
 
 .timer-content {
-  margin-right: 10px;
+  display: block;
+  height: 35px;
+  padding-right: 10px;
+  padding-top: 5px;
 	color: #fff;
 	font-weight: 900;
 	font-size: 12pt;
 }
 
+.timer-number {
+  background-color: #00B9EF;
+  transition: background-color ease 0.5s;
+  text-align: right;
+}
+
+#timer.is-critical-2 .timer-number {
+  background-color: yellow;
+}
+
+#timer.is-critical-1 .timer-number {
+  background-color: red;
+}
+
 .timer-wrong,
 .timer-correct {
-  width: 1260px;
-  height: 25px;
   text-align: center;
   display: none;
 }
@@ -165,6 +165,10 @@ body {
 #timer.is-correct .timer-correct,
 #timer.is-wrong .timer-wrong {
   display: block;
+}
+
+.mainmenue-button-container {
+  text-align: center;
 }
 
 .mainmenue-button {
@@ -200,16 +204,19 @@ body {
 .border {
 	border: 10px solid #666;
 	border-radius: 10px;
-	margin: 20px;
-	width: 1280px;
-	height: 520px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  bottom: 20px;
+  left: 20px;
+  overflow: hidden;
 }
 
 #roomcode {
 	font-size: 14pt;
 	position: absolute;
-	left: 1100px;
-	top: 30px;
+	right: 0;
+	top: 0;
 	padding-left: 8px;
 	padding-right: 20px;
 	border-left: 10px solid #666;
@@ -259,14 +266,14 @@ span.menue-prompt {
 
 #bottom-left-arrow {
 	position: absolute;
+  bottom: 40px;
 	left: 40px;
-	top: 450px;
 }
 
 #bottom-right-arrow {
-	top: 450px;
 	position: absolute;
-	left: 1200px;
+  bottom: 40px;
+	right: 40px;
 }
 
 .arrow {
