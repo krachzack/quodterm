@@ -2,7 +2,6 @@
 const requestPromise = require('axios')
 
 const questionPollingIntervalMs = 250
-const totalQuestionTimeMs = 20 * 1000
 
 module.exports = function (hostname, port, gameID) {
 
@@ -148,9 +147,9 @@ module.exports = function (hostname, port, gameID) {
               result.question.c,
               result.question.d
             ],
-            duration: totalQuestionTimeMs,
-            end: new Date(result.end),
-            start: new Date(new Date(result.end).getTime() - totalQuestionTimeMs),
+            duration: result.end,
+            end: new Date((new Date()).getTime() + result.end),
+            start: new Date(),
           }
         }
 
