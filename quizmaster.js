@@ -40,7 +40,7 @@ function showRound(question) {
 
       lastPrintedRound = round
     }
-  }, Math.max(0, (question.end - (new Date()).getTime())))
+  }, question.end)
 }
 
 function initQuiz () {
