@@ -171,12 +171,20 @@ body {
   text-align: center;
 }
 
+.mainmenu-button-aligner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
 .mainmenue-button {
 	opacity: 0.9;
 	color: black;
 	height: 100px;
-	margin-top: 200px;
 	font: center;
+  margin-bottom: 10%;
 }
 
 .mainmenue-button:hover {
@@ -194,6 +202,7 @@ body {
 .mainmenue-button-start {
 	background-color: #E1EFBC;
 	border: 8px solid #678815 !important;
+  margin-bottom: 10% !important;
 }
 
 .mainmenue-button-join {
