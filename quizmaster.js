@@ -35,7 +35,7 @@ function showRound(question) {
 
       nextRoundBtn.disabled = false
     }
-  }, Math.max(0, question.end.getTime() - (new Date()).getTime()) )
+  }, Math.max(0, question.end.getTime() - (new Date()).getTime()) + 100 )
 }
 
 function initQuiz () {
