@@ -44,6 +44,22 @@ body {
 	border: 8px solid #00B9EF !important;
 }
 
+.question-answer-estimate-btn-text-submitted {
+  display: none;
+}
+
+.question-answer-estimate-btn.is-pending .question-answer-estimate-btn-text-submit,
+.question-answer-estimate-btn.is-correct .question-answer-estimate-btn-text-submit,
+.question-answer-estimate-btn.is-wrong .question-answer-estimate-btn-text-submit {
+  display: none;
+}
+
+.question-answer-estimate-btn.is-pending .question-answer-estimate-btn-text-submitted,
+.question-answer-estimate-btn.is-correct .question-answer-estimate-btn-text-submitted,
+.question-answer-estimate-btn.is-wrong .question-answer-estimate-btn-text-submitted {
+  display: inline;
+}
+
 .question-answer-estimate-btn.is-wrong,
 .question-answer-choice.is-picked.is-wrong {
   background-color: rgba(223,14,14,0.25);
@@ -140,8 +156,12 @@ body {
 
 .timer-number {
   background-color: #00B9EF;
-  transition: background-color ease 0.5s;
   text-align: right;
+}
+
+#timer.is-critical-2 .timer-number,
+#timer.is-critical-1 .timer-number {
+  transition: background-color ease 0.4s;
 }
 
 #timer.is-critical-2 .timer-number {
