@@ -38,6 +38,13 @@
       roomInput.addEventListener('input', function() {
         localStorage.setItem('roomcode', roomInput.value)
       })
+
+      document.querySelector('#bottom-right-arrow > a').addEventListener(
+        'click',
+        function (evt) {
+          if(!roomInput.value) { evt.preventDefault() }
+        }
+      )
     </script>
 
 </body>
