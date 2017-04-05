@@ -14,9 +14,14 @@ function initUI() {
 }
 
 function showRound(question) {
+  console.log(question)
   const round = question.round
   quiz.getNextQuestion().then(showRound)
   document.querySelector('#server-round').textContent = round
+
+  const timeoutMs = Math.max(100, question.end.getTime() - (new Date()).getTime())
+
+  console.log("Showing result after: " + timeoutMs)
 
   setTimeout(function() {
     if(round > lastPrintedRound) {
@@ -35,7 +40,7 @@ function showRound(question) {
 
       nextRoundBtn.disabled = false
     }
-  }, Math.max(0, question.end.getTime() - (new Date()).getTime()) + 100 )
+  }, timeoutMs + 100)
 }
 
 function initQuiz () {

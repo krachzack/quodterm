@@ -44,8 +44,14 @@ body {
 	border: 8px solid #00B9EF !important;
 }
 
-.question-answer-estimate-btn-text-submitted {
+.question-answer-estimate-btn-text-submitted,
+.question-answer-estimate-btn-text-solution {
   display: none;
+}
+
+.question-answer-estimate-btn.is-correct .question-answer-estimate-btn-text-solution,
+.question-answer-estimate-btn.is-wrong .question-answer-estimate-btn-text-solution {
+  display: inline;
 }
 
 .question-answer-estimate-btn.is-pending .question-answer-estimate-btn-text-submit,

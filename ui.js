@@ -89,6 +89,7 @@ function processEstimateAnswer (estimateVal) {
       type: "estimate",
       estimate: estimateVal
     }).then(function (result) {
+      document.querySelector('.question-answer-estimate-btn-text-solution-text').textContent = result.solution
       estimateInputElem.classList.remove('is-pending')
       estimateConfirmElem.classList.remove('is-pending')
       estimateInputElem.classList.add(result.success ? 'is-correct' : 'is-wrong')
