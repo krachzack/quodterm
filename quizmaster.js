@@ -52,6 +52,10 @@ function initQuiz () {
 
 function advanceRound () {
   quiz.nextRound()
-  quiz.getQuestion().then(showRound)
+
+  setTimeout(function() {
+    quiz.getQuestion().then(showRound)
+  }, 50);
+
   nextRoundBtn.disabled = true
 }
