@@ -107,7 +107,10 @@ module.exports = function (hostname, port, gameID) {
         if (currentQuestion) {
             if (answerIdx < 0 || answerIdx > 3) { throw new Error(`Invalid answer idx ${answerIdx}`) }
 
-            return get(`answer/${gameID}/${currentQuestion.round}/${answerLetter}`).then(function (result) {
+            return post(
+              'answer',
+              { gameId: gameID, roundId: round, answer: answerLetter, username }
+            ).then(function (result) {
                 return new Promise(function (resolve, reject) {
                     const msLeft = currentQuestionRemainingTime()
                     setTimeout(function () {
@@ -131,7 +134,10 @@ module.exports = function (hostname, port, gameID) {
 
         const round = currentQuestion.round
 
-        return get(`answer/${gameID}/${round}/${estimateVal}`).then(function (result) {
+        return post(
+          'answer',
+          { gameId: gameID, roundId: round, answer: estimateVal, username }
+        ).then(function (result) {
             return new Promise(function (resolve, reject) {
                 const msLeft = currentQuestionRemainingTime()
                 setTimeout(function () {
