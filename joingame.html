@@ -27,24 +27,14 @@
             </a>
         </div>
         <div id="bottom-right-arrow">
-            <a href="quizplayer.html">
+            <a href="#">
             	<img class="img-responsive arrow-blue" src="resource/arrow_blue.png" width="50" height="50" />
             </a>
         </div>
     </div>
 
     <script type="text/javascript">
-      const roomInput = document.querySelector('#input-roomcode')
-      roomInput.addEventListener('input', function() {
-        localStorage.setItem('roomcode', roomInput.value)
-      })
-
-      document.querySelector('#bottom-right-arrow > a').addEventListener(
-        'click',
-        function (evt) {
-          if(!roomInput.value) { evt.preventDefault() }
-        }
-      )
+      require('./joingame')
     </script>
 
 </body>

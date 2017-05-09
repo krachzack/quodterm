@@ -7,6 +7,7 @@ module.exports = function (hostname, port, gameID) {
 
     let currentQuestion
     let currentQuestionPoll
+    let username
 
     return {
         start() {
@@ -18,6 +19,17 @@ module.exports = function (hostname, port, gameID) {
             } else {
                 return post(`start`, {gameId: gameID, cssUrl: undefined})
             }
+        },
+
+        join(newUsername) {
+          return post('/join', {gameId: gameID, username: newUsername}).then(function(res) {
+            if(res.success) {
+              username = newUsername
+              return res.success
+            } else {
+              return Promise.reject(`Join failed: ${JSON.stringify(res)}`)
+            }
+          })
         },
 
         nextRound() {
