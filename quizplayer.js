@@ -6,9 +6,10 @@ const path = require('path')
 const quodyssey = require('./quodyssey')
 const ui = require('./ui')
 const gameID = localStorage.getItem('roomcode')
+const username = localStorage.getItem('username')
 const hostname = process.env.SERVER_HOSTNAME || 'quovadis.gienah.uberspace.de'
 const port = process.env.SERVER_PORT || 80
-const quiz = quodyssey(hostname, port, gameID)
+const quiz = quodyssey(hostname, port, gameID, username)
 
 connectQuiz()
 

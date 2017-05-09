@@ -10,6 +10,9 @@ let multipleChoiceElements
 let estimateInputElem
 let estimateConfirmElem
 
+let openInputElem
+let openConfirmElem
+
 let timerElement
 let timerNumber
 
@@ -100,10 +103,28 @@ function processEstimateAnswer (estimateVal) {
   }
 }
 
+function processOpenAnswer (answer) {
+  openInputElem.classList.add('is-pending')
+  openConfirmElem.classList.add('is-pending')
+
+  mod.processAnswer({
+    type: "open",
+    answer
+  }).then(function (result) {
+    openInputElem.classList.remove('is-pending')
+    openConfirmElem.classList.remove('is-pending')
+
+    openInputElem.classList.add(result.success ? 'is-correct' : 'is-wrong')
+    openConfirmElem.classList.add(result.success ? 'is-correct' : 'is-wrong')
+    timerElement.classList.add(result.success ? 'is-correct' : 'is-wrong')
+  })
+}
+
 function showPrompt (type, prompt) {
   switch(type) {
     case "choice":
     case "estimate":
+    case "open":
       questionPromptElem.innerText = prompt
       break
 
@@ -120,6 +141,10 @@ function showOptions (type, options) {
 
     case "estimate":
       showEstimateInput()
+      break
+
+    case "open":
+      showOpenInput()
       break
 
     default:
@@ -148,9 +173,18 @@ function showEstimateInput() {
   estimateConfirmElem.classList.remove('is-wrong')
 }
 
+function showOpenInput() {
+  openInputElem.value = ''
+  openInputElem.classList.remove('is-correct')
+  openInputElem.classList.remove('is-wrong')
+  openConfirmElem.classList.remove('is-correct')
+  openConfirmElem.classList.remove('is-wrong')
+}
+
 function setQuestionClass (type) {
   questionElem.classList.remove('is-choice')
   questionElem.classList.remove('is-estimate')
+  questionElem.classList.remove('is-open')
 
   questionElem.classList.add(`is-${type}`)
 }
@@ -204,6 +238,9 @@ function obtainElements () {
   estimateInputElem = document.querySelector(estimateInputSel)
   estimateConfirmElem = document.querySelector(estimateConfirmSel)
 
+  openInputElem = document.querySelector("#question-answer-open")
+  openConfirmElem = document.querySelector("#question-answer-open-confirm")
+
   timerElement = document.querySelector("#timer")
   timerNumber = document.querySelector("#timer_number")
 }
@@ -219,6 +256,11 @@ function wireEvents () {
   estimateConfirmElem.addEventListener(
     'click',
     () => processEstimateAnswer(Number.parseFloat(estimateInputElem.value))
+  )
+
+  openConfirmElem.addEventListener(
+    'click',
+    () => processOpenAnswer(openInputElem.value)
   )
 
   setInterval(updateTimebar, 16)

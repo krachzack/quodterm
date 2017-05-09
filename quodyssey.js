@@ -3,11 +3,10 @@ const requestPromise = require('axios')
 
 const questionPollingIntervalMs = 250
 
-module.exports = function (hostname, port, gameID) {
+module.exports = function (hostname, port, gameID, username) {
 
     let currentQuestion
     let currentQuestionPoll
-    let username
 
     return {
         start() {
@@ -78,6 +77,10 @@ module.exports = function (hostname, port, gameID) {
                         wasRight = answerEstimate(answerObj.estimate)
                         break
 
+                    case "open":
+                        wasRight = answerOpen(answerObj.answer)
+                        break
+
                     default:
                         wasRight = Promise.reject(new Error(`Unknown answer type ${answerObj.type}`))
                         break
@@ -111,6 +114,10 @@ module.exports = function (hostname, port, gameID) {
               'answer',
               { gameId: gameID, roundId: round, answer: answerLetter, username }
             ).then(function (result) {
+                if(!result.success) {
+                    return Promise.reject(new Error(JSON.stringify(result)))
+                }
+
                 return new Promise(function (resolve, reject) {
                     const msLeft = currentQuestionRemainingTime()
                     setTimeout(function () {
@@ -138,6 +145,10 @@ module.exports = function (hostname, port, gameID) {
           'answer',
           { gameId: gameID, roundId: round, answer: estimateVal, username }
         ).then(function (result) {
+            if(!result.success) {
+                return Promise.reject(new Error(JSON.stringify(result)))
+            }
+
             return new Promise(function (resolve, reject) {
                 const msLeft = currentQuestionRemainingTime()
                 setTimeout(function () {
@@ -146,6 +157,32 @@ module.exports = function (hostname, port, gameID) {
                         // If less than 10% off, show as correct
                         const goodEnough = Math.abs(exactVal - estimateVal) < (exactVal * 0.1)
                         resolve({ success: goodEnough, solution: exactVal })
+                    })
+                }, Math.max(msLeft, 0))
+            })
+        })
+    }
+
+    function answerOpen(answer) {
+        if (typeof answer !== "string") {
+            return Promise.reject(new Error('Open questions need to be answered with strings'))
+        }
+
+        const round = currentQuestion.round
+
+        return post(
+          'answer',
+          { gameId: gameID, roundId: round, answer, username }
+        ).then(function (result) {
+            if(!result.success) {
+                return Promise.reject(new Error(JSON.stringify(result)))
+            }
+
+            return new Promise(function (resolve, reject) {
+                const msLeft = currentQuestionRemainingTime()
+                setTimeout(function () {
+                    get(`resultQ/${gameID}/${round}`).then(function (result) {
+                        resolve(result)
                     })
                 }, Math.max(msLeft, 0))
             })

@@ -8,10 +8,6 @@ const port = process.env.SERVER_PORT || 80
 wireEvents();
 
 function wireEvents() {
-  roomInput.addEventListener('input', function() {
-    localStorage.setItem('roomcode', roomInput.value)
-  })
-
   document.querySelector('#bottom-right-arrow > a').addEventListener(
     'click',
     function (evt) {
@@ -29,6 +25,8 @@ function join() {
 
   const quiz = quodyssey(hostname, port, room)
   quiz.join(username).then(function() {
+    localStorage.setItem('roomcode', room)
+    localStorage.setItem('username', username)
     console.log(`${username} just joined`)
     window.location = 'quizplayer.html'
   })

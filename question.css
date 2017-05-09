@@ -5,7 +5,7 @@ body {
 
 .question-answers-choice,
 .question-answers-estimate,
-.question-answers-text,
+.question-answers-open,
 .question-prompt,
 .msg-awating-round {
   display: none;
@@ -17,7 +17,7 @@ body {
 
 .question.is-choice .question-prompt,
 .question.is-estimate .question-prompt,
-.question.is-text .question-prompt {
+.question.is-open .question-prompt {
   display: block;
 }
 
@@ -29,7 +29,7 @@ body {
   display: block;
 }
 
-.question.is-text .question-answers-text {
+.question.is-open .question-answers-open {
   display: block;
 }
 
